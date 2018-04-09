@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    body { padding: 15px; min-width: 1200px;}
+    [v-cloak] {display: none;}
+    .el-menu-top { border-radius: 0; min-width: 1250px;position:fixed;top:0;left:0px;right:0px;z-index:9999;}
+    .el-menu-caption { width:auto;float:left;height:60px;line-height:60px;color:aliceblue;padding:0 25px; }
+    .el-form-item__content {line-height: 10px;}
+    .el-message-box__title {display:inline-block;}
+    .el-message-box__close {float:right;}
+    .el-dialog__body {padding: 30px 20px 10px 20px;}
+    .el-dialog__footer{padding: 10px 20px 30px;}
+    .el-row-with-margin { margin:16px 0px; }
+    .el-tag {margin-right: 8px;margin-bottom:6px;}
+    .button-new-tag {line-height: 22px;padding-top:0;padding-bottom:0;}
+    .wide-path {width: 600px;}
+    .el-menu-item { height: 44px; line-height: 44px; }
+    .pull-left {float:left;}
+    .pull-right {float:right;}
+    .search-radio {
+        height: 36px;
+        line-height: 36px;
+    }
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        margin-bottom: 18px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+    .clearfix:after {
+        clear: both
+    }
+
+    .box-card {
+        width: 480px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" v-cloak>
+    <div style="padding:15px;border:1px solid #eee;border-radius:5px;color:#409EFF;">
+        <span style="font-weight:bold">基因研发数据库</span> / <span style="color:#ccc">数据导入</span>
+    </div>
+    <div style="margin-top:20px;">
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>导入位点数据</span>
+            </div>
+            <el-upload
+                class="upload-demo"
+                action="/locus-data-input"
+                accept=".xlsx"
+                :multiple = "false"
+                :before-upload = "beforeUpload"
+                :on-preview = "handlePreview"
+                :on-remove = "handleRemove"
+                :on-success = "uploadFinished"
+                :file-list = "fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传 xlsx 文件</div>
+            </el-upload>
+        </el-card>
+    </div>
+  </div>
+</body>
+  <!-- 引入组件库 -->
+  <script src="./lib/vue.js"></script>
+  <script src="./lib/axios.min.js"></script>
+  <script src="./lib/lodash.min.js"></script>
+  <script src="./lib/element.min.js"></script>
+  <script src="./js/util.js"></script>
+  <!-- 应用 -->
+  <script src="./js/data-input.js"></script>
+</html>

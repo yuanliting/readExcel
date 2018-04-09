@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../public/js/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+    <div id="vueApp">
+      <form action="" ref="myform">
+              <img v-for="i in files" :src="i" class="images" :key="i" >
+              <input id="file" type="file" name="photo" accept="image/*"
+                     @change="chooseImage($event)" multiple class="photo" style="margin-left: 30px;">
+              <button class="sure1"  type="submit"  @click="give($event)" required>提 交</button>
+            </form>
+    </div>
+</body>
+<script>  
+function importf (file){
+    console.log(file)
+}       
+        let vm = new Vue({
+            el: '#vueApp',
+            data: {
+                files:[],
+                productImage:[],
+                photo:[]
+                },   
+            created:function(){
+                var self = this;
+                            
+            },
+            //自定义过滤器
+            filters: {
+                
+            },
+            mounted:function(){
+                    
+            },
+            methods: {
+                 chooseImage(e){
+                    for(var i = 0;i< e.target.files.length;i++){
+                    this.productImage.push(e.target.files[i]);
+                    var url = URL.createObjectURL(e.target.files[i]);
+                    this.files.push(url);
+                    }
+                },
+                give: function(ev) {
+                        event.preventDefault();
+                        let myform = this.$refs.myform;
+                        let formData = new FormData(myform);
+                        if(this.photo.length < 0){
+                        this.photo = []
+                        }
+                        let config = {
+                        headers:{
+                            "Content-Type": "multipart/form-data"
+                        }
+                        };
+                //        发送更改头像的请求
+                        axios.post('/writeData',formData,config).then((resData) =>{
+                        console.log(resData);
+                        if(resData.data.error == 0){
+                            alert(resData.data.message);
+                            this.show2 = false;
+                            location.reload();
+                        }
+                        })
+                        
+                    },
+                },
+        })
+</script>
+</html>
